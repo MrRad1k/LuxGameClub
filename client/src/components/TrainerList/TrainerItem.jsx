@@ -1,20 +1,23 @@
-import React from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Col, Image } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
-import { TRAINER_ROUTER } from '../../utils/consts';
+import { fetchGames } from '../../http/trainerAPI';
+import { TRAINER_ROUTER, LOGIN_USER_ROUTER } from '../../utils/consts';
+import { Context } from '../..';
 
 
 const TrainerItem = ({ trainer }) => {
+    const context = useContext(Context)
     const navigate = useNavigate()
 
     const check = () => {
-        if (!localStorage.tokenUser && !localStorage.tokenTrainer)
-            alert('Аавторизируйтесь')
+        if (!localStorage.tokenUser || !localStorage.tokenTrainer)
+            navigate(LOGIN_USER_ROUTER)
         else
             navigate(TRAINER_ROUTER + '/' + trainer.id)
     }
 
-    
+
     return (
         <Col className="mt-3" onClick={check} >
             <div className="trcard" >
@@ -22,10 +25,10 @@ const TrainerItem = ({ trainer }) => {
                 <h4 style={{ marginLeft: "15px", marginBottom: "25px" }}>Тренер</h4>
                 <h5 style={{ marginLeft: "15px", marginBottom: "20px" }}>Почта: {trainer.emailTrainer}</h5>
                 <h5 style={{ marginLeft: "15px", marginBottom: "20px" }}>Имя: {trainer.name}</h5>
-
-                {trainer.gameId === 1 && <h6 style={{ marginLeft: "15px" }}>Игра: Counter-Strike: Global Offensive</h6>}
-                {trainer.gameId === 2 && <h6 style={{ marginLeft: "15px" }}>Игра: League of Legends</h6>}
-                {trainer.gameId === 3 && <h6 style={{ marginLeft: "15px" }}>Игра: Dota 2</h6>}
+                {context.trainer.games.map(game =>
+                    trainer.gameId === game.id &&
+                    <h6 key={trainer.gameId} style={{ marginLeft: "15px" }}>Игра: {game.name}</h6>
+                )}
             </div>
         </Col>
 

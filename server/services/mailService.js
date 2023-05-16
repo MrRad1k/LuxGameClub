@@ -11,7 +11,7 @@ class MailService {
         })
     }
 
-    async sendActivationMail(link, trainerEmail) {
+    async sendActivationMail(link, trainerEmail, trainerName, photo, trainerCity, trainerOld, trainerAbout) {
         await this.transporter.sendMail({
             from: process.env.EMAIL_LOGIN,
             to: process.env.EMAIL_LOGIN,
@@ -20,7 +20,17 @@ class MailService {
             html:
                 `
                     <div>
-                        <h1>Активировать аккаунта тренера ${trainerEmail}</h1>
+                        <h1>Активировать аккаунта тренера</h1>
+                        <h3>Почта: ${trainerEmail}</h3>
+                        <h3>Имя: ${trainerName}</h3>
+                        <h3>Город: ${trainerCity}</h3> 
+                        <h3>Возраст: ${trainerOld}</h3>
+                        <h3>Качества: ${trainerAbout}</h3>
+                        
+                        <h3>Фото: ${process.env.API_URL + "/" + photo}</h3> 
+
+                        <br/>    
+                        <h3>Ссылка для подтверждения:</h3>
                         <a href="${link}">${link}</a>
                     </div>
                 `

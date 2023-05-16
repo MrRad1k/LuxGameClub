@@ -5,9 +5,9 @@ const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
 const ApiError = require('../error/apiError')
 const { Trainer } = require('../models/models')
-const NodeMailer = require('../services/nodemailer')
 const mailService = require('../services/mailService')
 const trainerAcrivate = require('../services/trainerActivate')
+const mailTrainerActivate = require('../services/mailTrainerActivate')
 
 
 const generateJwt = (id, emailTrainer, isActivated) => {
@@ -45,12 +45,16 @@ class TrainerController {
             const hashPassword = await bcrypt.hash(password, 5)
             const activationLink = uuid.v4()
             const trainer = await Trainer.create({ emailTrainer, password: hashPassword, name, photo: fileName, city, old, about, gameId, activationLink })
-            await mailService.sendActivationMail(`${process.env.API_URL}/api/trainer/activate/${activationLink}`, emailTrainer)
+
+            await mailService.sendActivationMail(`${process.env.API_URL}/api/trainer/activate/${activationLink}/${emailTrainer}`, emailTrainer, name, fileName, city, old, about)
+
             const token = generateJwt(trainer.id, trainer.emailTrainer, trainer.isActivated)
 
-            //NodeMailer.mailer(emailTrainer, password)
-
-            return res.json({ token })
+            if (!trainer.isActivated) {
+                return next(ApiError.internal('Заявка на расмотрении'))
+            } else {
+                return res.json({ token })
+            }
         } catch (e) { next(ApiError.badRequest(e.message)) }
     }
 
@@ -63,21 +67,30 @@ class TrainerController {
             return next(ApiError.internal('Тренер не найден'))
         }
 
-        let comparePassword = bcrypt.compareSync(password, trainer.password)
+        if (!trainer.isActivated) {
+            return next(ApiError.internal('Заявка на расмотрении'))
+        } else {
+            let comparePassword = bcrypt.compareSync(password, trainer.password)
 
-        if (!comparePassword) {
-            return next(ApiError.internal('Указан неверный пароль'))
+            if (!comparePassword) {
+                return next(ApiError.internal('Указан неверный пароль'))
+            }
+
+            const token = generateJwt(trainer.id, trainer.emailTrainer, trainer.isActivated)
+
+            return res.json({ token })
         }
-
-        const token = generateJwt(trainer.id, trainer.emailTrainer, trainer.isActivated)
-
-        return res.json({ token })
     }
 
 
     async checkTrainer(req, res, next) {
         const token = generateJwt(req.trainer.id, req.trainer.emailTrainer, req.trainer.isActivated)
-        return res.json({ token })
+
+        if (!req.trainer.isActivated) {
+            return next(ApiError.internal('Заявка на расмотрении'))
+        } else {
+            return res.json({ token })
+        }
     }
 
     async getAll(req, res) {
@@ -103,10 +116,18 @@ class TrainerController {
     }
 
     async activate(req, res, next) {
+        try {
             const activationLink = req.params.link
+            const email = req.params.email
             await trainerAcrivate.activate(activationLink)
-            return res.redirect(process.env.CLIENT_URL)
+            mailTrainerActivate.mailer(email)
+
+            return res.redirect(process.env.CLIENT_URL + '/activate/' + activationLink + '/' + email)
+        } catch (e) {
+            next(ApiError.badRequest(e.message))
+        }
     }
 }
+
 
 module.exports = new TrainerController()

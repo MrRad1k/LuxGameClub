@@ -1,5 +1,5 @@
 import { observer } from 'mobx-react-lite';
-import React, { useState, useContext, useEffect }  from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { Context } from '../..';
 import { login, registration } from '../../http/userAPI';
@@ -20,17 +20,14 @@ const AuthUser = observer(() => {
     const [city, setCity] = useState('')
     const [old, setOld] = useState(0)
 
-    const selectFile = (e) => {
-        setPhoto(e.target.files[0])
-    }
+    const selectFile = (e) => setPhoto(e.target.files[0])
 
     const click = async () => {
         try {
-            let data;
             const formData = new FormData()
 
             if (isLogin) {
-                data = await login(email, password)
+                await login(email, password)
             } else {
                 await formData.append('email', email)
                 await formData.append('password', password)
@@ -38,7 +35,7 @@ const AuthUser = observer(() => {
                 await formData.append('photo', photo)
                 await formData.append('city', city)
                 await formData.append('old', old)
-                data = await registration(formData)
+                await registration(formData)
             }
             user.setUser(user)
             user.setIsAuth(true)
@@ -48,14 +45,12 @@ const AuthUser = observer(() => {
             alert(e.response.data.message)
         }
     }
-
+ 
     useEffect(() => {
-        if (isReg) {
-            navigate(LOGIN_USER_ROUTER)
-        }
+        if (isReg) navigate(LOGIN_USER_ROUTER)   
     }, [])
 
-    
+
     return (
         <div className="section ">
 
@@ -78,7 +73,7 @@ const AuthUser = observer(() => {
                                     <div className="card-front">
                                         <div className="center-wrap">
                                             <div className="section text-center">
-                                                <h4 className="mb-4 pb-3">Авторизация участника</h4>
+                                                <h4 className="mb-4 pb-3">Авторизация ученика</h4>
                                                 <div className="form-group">
                                                     <input type="email" className="form-style" placeholder="Введите Email" value={email} onChange={e => setEmail(e.target.value)} />
                                                     <i className="input-icon uil uil-at"></i>
@@ -89,7 +84,7 @@ const AuthUser = observer(() => {
                                                 </div>
 
                                                 <div className="con">
-                                                    <a className='aBtn' type="submit" onClick={click}>
+                                                    <a href="#/" className='aBtn' type="submit" onClick={click}>
                                                         <span className='spanBtn'>Войти</span>
                                                         <i className='iBtn'></i>
                                                     </a>
@@ -101,7 +96,7 @@ const AuthUser = observer(() => {
                                     <div className="card-back">
                                         <div className="center-wrap">
                                             <div className="section text-center">
-                                                <h4 className="mb-4 pb-3">Регистрация участника</h4>
+                                                <h4 className="mb-4 pb-3">Регистрация ученика</h4>
                                                 <div className="form-group mt-2">
                                                     <input type="email" className="form-style" placeholder="Введите Email" value={email} onChange={e => setEmail(e.target.value)} />
                                                     <i className="input-icon uil uil-at"></i>
@@ -128,7 +123,7 @@ const AuthUser = observer(() => {
                                                 </div>
 
                                                 <div className="con">
-                                                    <a className='aBtn' type="submit" onClick={click}>
+                                                    <a href="#/" className='aBtn' type="submit" onClick={click}>
                                                         <span className='spanBtn'>Регистрация</span>
                                                         <i className='iBtn'></i>
                                                     </a>

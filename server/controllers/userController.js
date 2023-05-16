@@ -76,10 +76,18 @@ class UserController {
         return res.json(users)
     }
 
-    
+
     async getOne(req, res) {
         const { id } = req.params
         const user = await User.findOne({ where: { id } })
+        return res.json(user)
+    }
+
+    async origin(req, res) {
+        const { id } = req.params
+        const { originName } = req.body
+        const user = await User.findOne({ where: { id } })
+        user.update({ originName: originName })
         return res.json(user)
     }
 }

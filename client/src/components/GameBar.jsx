@@ -7,11 +7,9 @@ import { Card, Container } from 'react-bootstrap';
 const GameBar = observer(() => {
     const { trainer } = useContext(Context)
 
-    const allTrainer = () => {
-        trainer.setSelectedGame(trainer)
-    }
+    const allTrainer = () => trainer.setSelectedGame(trainer)
 
-    
+
     return (
         <Container className="d-flex p-3" >
             <div className="divStyle" >

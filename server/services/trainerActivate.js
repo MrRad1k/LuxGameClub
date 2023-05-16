@@ -3,7 +3,7 @@ const { Trainer } = require("../models/models");
 
 class TrainerActivate {
     async activate(activationLink) {
-        const trainer = await Trainer.findOne({where : {activationLink}})
+        const trainer = await Trainer.findOne({ where: { activationLink } })
         if (!trainer) {
             throw ApiError.badRequest("Неккоректная ссылка активации")
         }

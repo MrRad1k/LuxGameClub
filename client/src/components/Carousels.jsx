@@ -1,6 +1,5 @@
 import React from 'react';
 import Carousel from 'react-bootstrap/Carousel';
-
 import carousel1 from '../assets/carousel1.png'
 import carousel2 from '../assets/carousel2.png'
 import carousel3 from '../assets/carousel3.png'
@@ -8,7 +7,7 @@ import carousel3 from '../assets/carousel3.png'
 
 const Carousels = () => {
     return (
-        <Carousel fade >
+        <Carousel fade>
             <Carousel.Item interval={3000} style={{ maxHeight: "750px" }}>
                 <img
                     style={{ filter: "brightness(40%)" }}

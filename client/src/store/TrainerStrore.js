@@ -8,9 +8,11 @@ export default class TrainerStore {
         this._users = []
         this._games = []
         this._selectedGame = {}
-        this._page = 1
-        this._totalCount = 0
-        this._limit = 6
+        this._materials = []
+        this._selectedMaterial = {}
+        // this._page = 1
+        // this._totalCount = 0
+        // this._limit = 6
         this._isActivated = false
         makeAutoObservable(this)
     }
@@ -40,12 +42,20 @@ export default class TrainerStore {
         this._selectedGame = game
     }
 
-    setPage(page) {
-        this._page = page
+    setSelectedMaterial(material) {
+        this._selectedMaterial = material
     }
 
-    setTotalCount(count) {
-        this._totalCount = count
+    // setPage(page) {
+    //     this._page = page
+    // }
+
+    // setTotalCount(count) {
+    //     this._totalCount = count
+    // }
+
+    setMaterial(materials) {
+        this._materials = materials
     }
 
     setIsActivated(bool) {
@@ -77,17 +87,25 @@ export default class TrainerStore {
         return this._selectedGame
     }
 
-    get totalCount() {
-        return this._totalCount
+    get materials() {
+        return this._materials
     }
 
-    get page() {
-        return this._page
+    get selectedMaterial() {
+        return this._selectedMaterial
     }
 
-    get limit() {
-        return this._limit
-    }
+    // get totalCount() {
+    //     return this._totalCount
+    // }
+
+    // get page() {
+    //     return this._page
+    // }
+
+    // get limit() {
+    //     return this._limit
+    // }
 
     get isActivated() {
         return this._isActivated

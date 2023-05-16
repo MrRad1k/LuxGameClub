@@ -1,26 +1,27 @@
-import {MAIN_ROUTER, USER_ROUTER, TRAINER_ROUTER, LOGIN_USER_ROUTER, REGISTRATION_USER_ROUTER, LOGIN_TRAINER_ROUTER, REGISTRATION_TRAINER_ROUTER} from "./utils/consts";
+import { MAIN_ROUTER, USER_ROUTER, TRAINER_ROUTER, LOGIN_USER_ROUTER, REGISTRATION_USER_ROUTER, LOGIN_TRAINER_ROUTER, REGISTRATION_TRAINER_ROUTER, ACTIVATE_ROUTER, USERS_LISTS_ROUTER, MATERIAL_ROUTER, STEAM, } from "./utils/consts";
 import Main from "./pages/Main";
 import Trainer from "./pages/PersonalPage/Trainer"
 import User from "./pages/PersonalPage/User"
 import AuthUser from './pages/Auth/AuthUser'
 import AuthTrainer from './pages/Auth/AuthTrainer'
+import Activate from "./pages/Activate";
+import UsersLists from "./pages/UsersLists";
+import Material from "./pages/Material";
 
 
 export const authRouters = [
-    {
-        path: USER_ROUTER + '/:id',
-        Component: <User />
-    },
-    {
-        path: TRAINER_ROUTER + '/:id',
-        Component: <Trainer />
-    },
+
+
 ]
 
 export const publicRouters = [
     {
         path: MAIN_ROUTER,
         Component: <Main />
+    },
+    {
+        path: TRAINER_ROUTER + '/:id',
+        Component: <Trainer />
     },
     {
         path: LOGIN_USER_ROUTER,
@@ -38,4 +39,23 @@ export const publicRouters = [
         path: REGISTRATION_TRAINER_ROUTER,
         Component: <AuthTrainer />
     },
+    {
+        path: ACTIVATE_ROUTER + '/:link',
+        Component: <Activate />
+    },
+    {
+        path: USERS_LISTS_ROUTER,
+        Component: <UsersLists />
+    },
+    {
+        path: MATERIAL_ROUTER + '/:id',
+        Component: <Material />
+    },
+    {
+        path: USER_ROUTER + '/:id',
+        Component: <User />
+    },
+    {
+        path: STEAM
+    }
 ]

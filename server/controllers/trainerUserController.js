@@ -25,6 +25,27 @@ class TrainerUserController {
 
         return res.json(trainerUsers)
     }
+
+    async create(req, res, next) {
+        try {
+            let { userId, trainerId } = req.body
+            const usertrainer = await TrainerUser.create({ trainerId, userId });
+            return res.json(usertrainer)
+        } catch (e) {
+            next(ApiError.badRequest(e.message))
+        }
+    }
+
+    async delete(req, res, next) {
+        try {
+            let { trainerId, userId } = req.body
+            const usertrainer = await TrainerUser.findOne({ where: { trainerId, userId  } })
+            const del = usertrainer.destroy();
+            return res.json(del)
+        } catch (e) {
+            next(ApiError.badRequest(e.message))
+        }
+    }
 }
 
 module.exports = new TrainerUserController()

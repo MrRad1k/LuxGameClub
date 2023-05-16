@@ -8,10 +8,11 @@ import TrainerItem from './TrainerItem';
 const TrainerList = observer(() => {
     const { trainer } = useContext(Context)
 
-  
+    
     return (
         <Row md={4}>
             {trainer.trainers.map(trainer =>
+                trainer.isActivated &&
                 <TrainerItem key={trainer.id} trainer={trainer} />
             )}
         </Row>

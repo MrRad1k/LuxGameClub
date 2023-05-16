@@ -2,7 +2,7 @@ import { observer } from 'mobx-react-lite';
 import React, { useState, useContext, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { Context } from '../..';
-import { login, registration } from '../../http/trainerAPI';
+import { fetchGames, login, registration } from '../../http/trainerAPI';
 import { LOGIN_TRAINER_ROUTER, MAIN_ROUTER, REGISTRATION_TRAINER_ROUTER } from '../../utils/consts';
 
 
@@ -18,21 +18,25 @@ const AuthTrainer = observer(() => {
     const [name, setName] = useState('')
     const [photo, setPhoto] = useState(null)
     const [city, setCity] = useState('')
-    const [old, setOld] = useState(0)
+    const [old, setOld] = useState(18)
     const [about, setAbout] = useState('')
     const [gameId, setGameId] = useState(0)
 
-    const selectFile = (e) => {
-        setPhoto(e.target.files[0])
-    }
+    const [games, setGames] = useState([])
+
+    useEffect(() => {
+        fetchGames().then(data => setGames(data))
+    }, [])
+
+    const selectFile = (e) => setPhoto(e.target.files[0])
+
 
     const click = async () => {
         try {
-            let data;
             const formData = new FormData()
 
             if (isLogin) {
-                data = await login(emailTrainer, password)
+                await login(emailTrainer, password)
             } else {
                 await formData.append('emailTrainer', emailTrainer)
                 await formData.append('password', password)
@@ -42,7 +46,7 @@ const AuthTrainer = observer(() => {
                 await formData.append('old', old)
                 await formData.append('about', about)
                 await formData.append('gameId', gameId)
-                data = await registration(formData)
+                await registration(formData)
             }
             trainer.setTrainer(trainer)
             trainer.setIsAuth(true)
@@ -50,14 +54,13 @@ const AuthTrainer = observer(() => {
             navigate(MAIN_ROUTER)
             window.location.reload();
         } catch (e) {
+            navigate(MAIN_ROUTER)
             alert(e.response.data.message)
         }
     }
 
-    useEffect(() => {
-        if (isReg) {
-            navigate(LOGIN_TRAINER_ROUTER)
-        }
+    useEffect(() => { 
+        if (isReg) navigate(LOGIN_TRAINER_ROUTER) 
     }, [])
 
 
@@ -94,7 +97,7 @@ const AuthTrainer = observer(() => {
                                                 </div>
 
                                                 <div className="con">
-                                                    <a className='aBtn' onClick={click}>
+                                                    <a href="#/" className='aBtn' onClick={click}>
                                                         <span type="submit" className='spanBtn'>Войти</span>
                                                         <i className='iBtn'></i>
                                                     </a>
@@ -140,15 +143,15 @@ const AuthTrainer = observer(() => {
                                                 <div className="form-group mt-2">
                                                     <select className="form-style" onChange={e => setGameId(e.target.value)} >
                                                         <option >Выберите игру</option>
-                                                        <option value={1}>Counter-Strike: Global Offensive</option>
-                                                        <option value={2}>League of Legends</option>
-                                                        <option value={3}>Dota 2</option>
+                                                        {games.map(game =>
+                                                            <option key={game.id} value={game.id}>{game.name}</option>
+                                                        )}
                                                     </select>
                                                     <i className="input-icon uil-desktop"></i>
                                                 </div>
 
                                                 <div className="con">
-                                                    <a className='aBtn' type="submit" onClick={click}>
+                                                    <a href="#/" className='aBtn' type="submit" onClick={click}>
                                                         <span className='spanBtn'>Регистрация</span>
                                                         <i className='iBtn'></i>
                                                     </a>
