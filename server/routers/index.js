@@ -7,8 +7,7 @@ const trainerUserRouter = require('./trainerUserRouter')
 const materialRouter = require('./materialRouter')
 const statisticRouter = require('./statisticRouter')
 const materialUserRouter = require('./materialUserRouter')
-const steamRouter = require('./steamRouter')
-const riotRouter = require('./riotRouter')
+const newsRouter = require('./newsRouter')
 
 router.use('/trainer', trainerRouter)
 router.use('/game', gameRouter)
@@ -17,7 +16,6 @@ router.use('/trainer_user', trainerUserRouter)
 router.use('/material', materialRouter)
 router.use('/statistic', statisticRouter)
 router.use('/material_user', materialUserRouter)
-router.use('/steam', steamRouter)
-router.use('/riot', riotRouter)
+router.use('/news', newsRouter)
 
 module.exports = router

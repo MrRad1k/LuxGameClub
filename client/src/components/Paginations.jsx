@@ -5,8 +5,8 @@ import { Pagination } from "react-bootstrap";
 
 
 const Paginations = observer(() => {
-    const { trainer } = useContext(Context)
-    const pageCount = Math.ceil(trainer.totalCount / trainer.limit)
+    const { news } = useContext(Context)
+    const pageCount = Math.ceil(news.totalCount / news.limit)
     const pages = []
 
     for (let i = 0; i < pageCount; i++)
@@ -14,16 +14,18 @@ const Paginations = observer(() => {
 
 
     return (
-        <Pagination size="sm">
+        <Pagination size="sm" >
+            <Pagination.First style={{ background: "rgb(25, 26, 34)" }} onClick={() => news.setPage(1)} />
             {pages.map(page =>
-                <Pagination.Item
+                <Pagination.Item style={{ background: "rgb(25, 26, 34)" }}
                     key={page}
-                    active={trainer.page === page}
-                    onClick={() => trainer.setPage(page)}
+                    active={news.page === page}
+                    onClick={() => news.setPage(page)}
                 >
                     {page}
                 </Pagination.Item>
             )}
+            <Pagination.Last style={{ background: "rgb(25, 26, 34)" }} onClick={() => news.setPage(pages.length)} />
         </Pagination>
     );
 });

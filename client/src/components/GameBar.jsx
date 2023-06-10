@@ -9,13 +9,14 @@ const GameBar = observer(() => {
 
     const allTrainer = () => trainer.setSelectedGame(trainer)
 
-
+  
     return (
         <Container className="d-flex p-3" >
             <div className="divStyle" >
                 <Card
                     className='p-3 cardStyle'
                     style={{
+                        background: "rgba(0, 0, 0, 0.3)",
                         borderBottom: !trainer.selectedGame.id && '5px solid transparent',
                         borderImage: "linear-gradient(0.25turn,#743ad5, #d53a9d)",
                         borderImageSlice: '1'
@@ -25,9 +26,10 @@ const GameBar = observer(() => {
                 </Card>
 
                 {trainer.games.map(game =>
-                    <Card
+                    <Card 
                         className='p-3 cardStyle'
                         style={{
+                            background: "rgba(0, 0, 0, 0.3)",
                             borderBottom: game.id === trainer.selectedGame.id && '5px solid transparent',
                             borderImage: "linear-gradient(0.25turn,#743ad5, #d53a9d)",
                             borderImageSlice: '1'

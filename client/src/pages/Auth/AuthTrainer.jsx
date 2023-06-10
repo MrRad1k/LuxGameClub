@@ -21,7 +21,6 @@ const AuthTrainer = observer(() => {
     const [old, setOld] = useState(18)
     const [about, setAbout] = useState('')
     const [gameId, setGameId] = useState(0)
-
     const [games, setGames] = useState([])
 
     useEffect(() => {
@@ -29,7 +28,6 @@ const AuthTrainer = observer(() => {
     }, [])
 
     const selectFile = (e) => setPhoto(e.target.files[0])
-
 
     const click = async () => {
         try {
@@ -59,8 +57,8 @@ const AuthTrainer = observer(() => {
         }
     }
 
-    useEffect(() => { 
-        if (isReg) navigate(LOGIN_TRAINER_ROUTER) 
+    useEffect(() => {
+        if (isReg) navigate(LOGIN_TRAINER_ROUTER)
     }, [])
 
 

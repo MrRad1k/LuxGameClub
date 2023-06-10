@@ -1,8 +1,7 @@
-import jwtDecode from 'jwt-decode';
 import React, { useContext, useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { Context } from '..';
-import { fetchMaterials, fetchOneTrainer } from '../http/trainerAPI';
+import { fetchMaterials } from '../http/trainerAPI';
 import { fetchMaterialUser } from '../http/userAPI';
 
 
@@ -13,7 +12,7 @@ const Status = () => {
 
     useEffect(() => {
         fetchMaterialUser().then(data => user.setMaterialUser(data))
-    }, [])
+    }, [user])
 
     useEffect(() => {
         fetchMaterials().then(data => setMaterial(data))

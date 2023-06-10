@@ -9,7 +9,6 @@ export const USER_ROUTER = '/user'
 export const TRAINER_ROUTER = '/trainer'
 export const USERS_LISTS_ROUTER = '/users'
 export const MATERIAL_ROUTER = '/material'
+export const NEWS_ROUTER = '/news'
 
 export const ACTIVATE_ROUTER = '/activate'
-
-export const STEAM = process.env.REACT_APP_API_URL + 'api/steam/auth/steam/'

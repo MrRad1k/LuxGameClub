@@ -8,7 +8,7 @@ const UserItem = ({ user }) => {
     const navigate = useNavigate()
 
     const check = () => {
-        if (!localStorage.tokenUser || !localStorage.tokenTrainer)
+        if (!localStorage.tokenUser && !localStorage.tokenTrainer)
             navigate(LOGIN_USER_ROUTER)
         else
             navigate(USER_ROUTER + '/' + user.id)

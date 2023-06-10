@@ -8,6 +8,7 @@ import { Spinner } from 'react-bootstrap';
 import { checkUser } from './http/userAPI';
 import { checkTrainer } from './http/trainerAPI'
 import { Context } from '.';
+import Footer from './components/Footer';
 
 
 const App = observer(() => {
@@ -36,6 +37,7 @@ const App = observer(() => {
     <BrowserRouter>
       <NavBar />
       <AppRouter />
+      <Footer />
     </BrowserRouter>
   );
 })

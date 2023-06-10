@@ -78,7 +78,10 @@ export const deleteMaterial = async (id) => {
     return data
 }
 
-
+export const updateMaterial = async (id, material) => {
+    const { data } = await $host.post('api/material/' + id, material)
+    return data
+}
 
 
 export const createStatistic = async (statistic) => {
@@ -92,6 +95,29 @@ export const fetchStatistics = async (userId) => {
 }
 
 export const deleteStatistic = async (materialId) => {
-    const { data } = await $host.delete('api/statistic',materialId)
+    const { data } = await $host.delete('api/statistic', materialId)
+    return data
+}
+
+
+export const addSteamTrainer = async (id) => {
+    const { data1 } = await $host.get('api/trainer/auth/steam/' + id)
+    const { data2 } = await $host.get('api/trainer/auth/steam/authenticate', { params: { id } })
+    return { data1, data2 }
+}
+
+export const addOriginTrainer = async (id, origin) => {
+    const { data } = await $host.post('api/trainer/' + id, origin)
+    return data
+}
+
+export const fetchOneGameStatisticsTrainer = async (id) => {
+    const { data } = await $host.get('api/trainer/gamestatistic/' + id)
+    return data
+}
+
+
+export const fetchCurrentStatistics = async (id, originName) => {
+    const { data } = await $host.post('api/trainer/current_statistics/' + id, { originName })
     return data
 }

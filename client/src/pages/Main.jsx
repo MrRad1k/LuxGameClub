@@ -5,12 +5,12 @@ import { Context } from '..';
 import { fetchGames, fetchTrainers } from '../http/trainerAPI';
 import TrainerList from '../components/TrainerList/TrainerList';
 import GameBar from '../components/GameBar';
-//import Paginations from '../components/Paginations';
 import Carousels from '../components/Carousels';
+import News from '../components/News';
 
 
 const Main = observer(() => {
-     const { trainer } = useContext(Context)
+    const { trainer } = useContext(Context)
 
     useEffect(() => {
         fetchGames().then(data => trainer.setGames(data))
@@ -31,9 +31,16 @@ const Main = observer(() => {
             <Carousels />
 
             <Container>
+                <br />
+                <h1 style={{
+                    borderBottom: '5px solid transparent',
+                    borderImage: "linear-gradient(0.25turn,#743ad5, #d53a9d)",
+                    borderImageSlice: '1',
+                    width: '320px'
+                }}>Список тренеров</h1>
                 <GameBar />
                 <TrainerList />
-                {/* <Paginations /> */}
+                <News />
             </Container>
         </>
     );

@@ -4,7 +4,6 @@ import { Row } from 'react-bootstrap';
 import { Context } from '../..';
 import { fetchTrainerUser } from '../../http/trainerAPI';
 import UserItem from './UserItem';
-import { fetchUsers } from '../../http/userAPI';
 
 
 const UserList = observer(() => {
@@ -12,6 +11,7 @@ const UserList = observer(() => {
     const [usertrainer, setUserTrainer] = useState([])
 
     useEffect(() => {
+        fetchTrainerUser(trainer.trainer.id).then(data => trainer.setUsers(data))
         fetchTrainerUser(trainer.trainer.id).then(data => setUserTrainer(data))
     }, [trainer.trainer.id])
 

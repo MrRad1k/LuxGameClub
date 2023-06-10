@@ -5,7 +5,8 @@ import { Container } from 'react-bootstrap';
 import { useNavigate, useParams } from 'react-router-dom';
 import { Context } from '..';
 import { fetchOneMaterial, deleteMaterial, deleteStatistic, fetchMaterials } from '../http/trainerAPI';
-import { createMaterialUser, fetchMaterialUser } from '../http/userAPI';
+import { checkUser, createMaterialUser, fetchMaterialUser } from '../http/userAPI';
+import CreateMaterial from '../components/modals/CreateMaterial';
 
 
 const Material = observer(() => {
@@ -14,19 +15,18 @@ const Material = observer(() => {
     const navigate = useNavigate()
     const [materials, setMaterials] = useState([])
 
+    const [materialVisible, setMaterialVisible] = useState(false)
+    const [test, setTest] = useState([])
+
     useEffect(() => {
         fetchOneMaterial(id).then(data => trainer.setMaterial(data))
     }, [id])
 
-    // const del = async () => {
-    //     await deleteMaterial(id)
-    //    // await deleteStatistic(id)
-    //     window.history.back()
-    // }
-
-    useEffect(() => {
-        fetchMaterials(id).then(data => setMaterials(data))
-    }, [id])
+    const del = async () => {
+        await deleteMaterial(id)
+        // await deleteStatistic(id)
+        window.history.back()
+    }
 
     useEffect(() => {
         fetchMaterialUser().then(data => user.setMaterialUser(data))
@@ -36,6 +36,14 @@ const Material = observer(() => {
     if (localStorage.tokenUser) {
         decodeUser = jwtDecode(localStorage.tokenUser)
     }
+    let decodeTrainer
+    if (localStorage.tokenTrainer) {
+        decodeTrainer = jwtDecode(localStorage.tokenTrainer)
+    }
+
+    useEffect(() => {
+        fetchMaterials(decodeTrainer?.id).then(data => setMaterials(data))
+    }, [decodeTrainer?.id])
 
     const status = async () => {
         try {
@@ -49,23 +57,38 @@ const Material = observer(() => {
         }
     }
 
+    const trainerCheck = materials.filter((i) => {
+        if (i.id == id) return i.trainerId
+    })
+
+    const userCheck = user.materialuser.filter((i) => {
+        if (i.materialId == id) return i.userId
+    })
+
 
     return (
         <Container>
-            {/* <h1>{trainer.materials.id}</h1> */}
-            <br/><br/>
+
             <h1>{trainer.materials.title}</h1>
-            <br/><br/>    <br/><br/>
-            <h1>{trainer.materials.text}</h1>
+            <div dangerouslySetInnerHTML={{ __html: trainer.materials.content }} />
 
-            {/* 
-            <a className='aBtn' type="submit" onClick={del}>
-                <span className='spanBtn'>Удалить материал</span>
-                <i className='iBtn'></i>
-            </a> 
-            */}
+            {trainer.isAuth && trainerCheck[0]?.trainerId &&
+                <div >
+                    <a className='aBtn' type="submit" onClick={() => setMaterialVisible(true)}>
+                        <span className='spanBtn'>Редактировать</span>
+                        <i className='iBtn'></i>
+                    </a>
 
-            {!trainer.isAuth && <a className='aBtn' type="submit" onClick={status}>
+                    <CreateMaterial edit={trainer.materials} show={materialVisible} onHide={() => setMaterialVisible(false)} />
+
+                    <a className='aBtn' type="submit" onClick={del}>
+                        <span className='spanBtn'>Удалить</span>
+                        <i className='iBtn'></i>
+                    </a>
+                </div>
+            }
+
+            {!trainer.isAuth && !userCheck[0]?.userId && <a className='aBtn' type="submit" onClick={status}>
                 <span className='spanBtn'>Прошел</span>
                 <i className='iBtn'></i>
             </a>}

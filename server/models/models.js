@@ -1,5 +1,6 @@
 const sequelize = require('../db')
 const { DataTypes } = require('sequelize')
+const { gzipSync, gunzipSync } = require('zlib')
 
 const Trainer = sequelize.define('trainer', {
     id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
@@ -12,8 +13,11 @@ const Trainer = sequelize.define('trainer', {
     about: { type: DataTypes.STRING },
     isActivated: { type: DataTypes.BOOLEAN, defaultValue: false },
     activationLink: { type: DataTypes.STRING },
-    steamId: { type: DataTypes.STRING(40)},
-    originName: {type: DataTypes.STRING(100)}
+    steamId: { type: DataTypes.STRING(40) },
+    steamName: { type: DataTypes.STRING(100) },
+    steamAvatar: { type: DataTypes.STRING },
+    originName: { type: DataTypes.STRING(100) },
+    originAvatar: { type: DataTypes.STRING },
 })
 
 const Game = sequelize.define('game', {
@@ -29,8 +33,11 @@ const User = sequelize.define('user', {
     photo: { type: DataTypes.STRING },
     city: { type: DataTypes.STRING(50) },
     old: { type: DataTypes.SMALLINT },
-    steamId: { type: DataTypes.STRING(40)},
-    originName: {type: DataTypes.STRING(100)}
+    steamId: { type: DataTypes.STRING(40) },
+    steamName: { type: DataTypes.STRING(100) },
+    steamAvatar: { type: DataTypes.STRING },
+    originName: { type: DataTypes.STRING(100) },
+    originAvatar: { type: DataTypes.STRING },
 })
 
 const TrainerUser = sequelize.define('trainer_user', {
@@ -40,7 +47,7 @@ const TrainerUser = sequelize.define('trainer_user', {
 const Material = sequelize.define('material', {
     id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
     title: { type: DataTypes.STRING },
-    text: { type: DataTypes.TEXT }
+    content: { type: DataTypes.TEXT  }
 })
 
 const Statistic = sequelize.define('statistic', {
@@ -50,6 +57,30 @@ const Statistic = sequelize.define('statistic', {
 
 const MaterialUser = sequelize.define('material_user', {
     id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
+})
+
+const GameStatistic = sequelize.define('game_statistic', {
+    id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
+    csgoTimePlayed: { type: DataTypes.STRING },
+    csgoKd: { type: DataTypes.DOUBLE },
+    csgoMvp: { type: DataTypes.INTEGER },
+    csgoMatchesPlayed: { type: DataTypes.INTEGER },
+    csgoWlPercentage: { type: DataTypes.DOUBLE },
+    csgoHeadshotPct: { type: DataTypes.DOUBLE },
+    apexLevel: { type: DataTypes.INTEGER },
+    apexKills: { type: DataTypes.INTEGER },
+    apexRankScore: { type: DataTypes.INTEGER },
+    apexRankScoreIcon: { type: DataTypes.STRING },
+    apexRankScoreName: { type: DataTypes.STRING },
+})
+
+const News = sequelize.define('news', {
+    id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
+    title: { type: DataTypes.STRING },
+    description: { type: DataTypes.STRING(1000) },
+    content: { type: DataTypes.TEXT },
+    image: { type: DataTypes.STRING },
+    publishedAt: { type: DataTypes.STRING }
 })
 
 
@@ -64,6 +95,11 @@ TrainerUser.belongsTo(User)
 
 Game.hasMany(Trainer)
 Trainer.belongsTo(Game)
+
+Trainer.hasMany(GameStatistic)
+GameStatistic.belongsTo(Trainer)
+User.hasMany(GameStatistic)
+GameStatistic.belongsTo(User)
 
 Material.belongsToMany(User, { through: MaterialUser })
 User.belongsToMany(Material, { through: MaterialUser })
@@ -85,5 +121,7 @@ module.exports = {
     TrainerUser,
     Material,
     Statistic,
-    MaterialUser
+    MaterialUser,
+    GameStatistic,
+    News
 }

@@ -8,14 +8,19 @@ body {
     font-family: "TTSquares Black";
 
     overflow: auto;
-    background: linear-gradient(315deg,
+
+    background-image: url("./assets/background3.jpg");
+    background-color: #2A1B3D;
+    background-size: 100%;
+
+    /* background: linear-gradient(315deg,
             rgba(101, 0, 94, 1) 3%,
             rgb(1, 34, 66) 38%,
             rgb(63, 6, 55) 68%,
-            rgb(22, 22, 22) 98%);
-    animation: gradient 15s ease infinite;
+            rgb(22, 22, 22) 98%); */
+    /* animation: gradient 15s ease infinite;
     background-size: 400% 400%;
-    background-attachment: fixed;
+    background-attachment: fixed; */
     color: white;
 }
 
@@ -32,6 +37,8 @@ body {
         background-position: 0% 0%;
     }
 }
+
+
 
 .wave {
     background: rgb(255 255 255 / 25%);
@@ -495,9 +502,11 @@ a {
     box-shadow: 2px 2px 20px rgba(0, 0, 0, 0.5);
     transition: all 0.5s 0s;
     cursor: pointer;
-    height: 470px;
+    height: 500px;
     width: 255px;
     margin-bottom: 50px;
+    background: rgb(25, 26, 34);
+    background-image: url(https://s3-us-west-2.amazonaws.com/s.cdpn.io/1462889/pat.svg);
 }
 
 .trcard:hover {
@@ -518,6 +527,7 @@ a {
     }
 
     .trcard {
+        height: 500px;
         width: 210px;
     }
 }
@@ -530,7 +540,7 @@ a {
     .trcard {
         margin-left: 170px;
         width: 300px;
-        height: 450px;
+        height: 520px;
     }
 
     .imgSt {
@@ -717,9 +727,11 @@ button {
 }
 
 table {
+    background: rgb(25 26 34);
+    background-image: url(https://s3-us-west-2.amazonaws.com/s.cdpn.io/1462889/pat.svg);
     font-size: 20px;
-    max-width: 70%;
-    width: 50%;
+    max-width: 100%;
+    width: 100%;
     border-collapse: collapse;
     text-align: left;
 }
@@ -728,15 +740,187 @@ th {
     font-weight: normal;
     color: rgb(255, 255, 255);
     border-bottom: 2px solid #6678b1;
-    padding: 10px 8px;
+    padding: 10px 20px;
 }
 
 td {
     color: rgb(255, 255, 255);
     padding: 9px 8px;
     transition: .3s linear;
+    padding: 10px 20px;
+
 }
 
 tr:hover td {
     color: #6699ff;
+}
+
+
+
+
+.cardTitle {
+    text-decoration: none;
+    padding: 0;
+    font-size: 32px;
+    text-transform: none;
+}
+
+.row {
+    margin-top: 50px;
+    cursor: pointer;
+}
+
+
+.cardcard .wrapper {
+    height: 300px;
+    background: rgb(25, 26, 34);
+    background-image: url(https://s3-us-west-2.amazonaws.com/s.cdpn.io/1462889/pat.svg);
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 19px 38px rgba(0, 0, 0, 0.3), 0 15px 12px rgba(0, 0, 0, 0.2);
+}
+
+.cardcard .wrapper:hover {
+
+    box-shadow: 20px 20px 20px 0px rgba(0, 0, 0, 0.5);
+}
+
+.cardcard .data {
+    float: right;
+    width: 60%;
+    height: 100%;
+}
+
+.cardcard .data .contentcontent {
+    padding: 1em;
+    position: relative;
+    z-index: 1;
+}
+
+.cardcard .text {
+    margin: 0;
+    color: rgb(255, 255, 255);
+    margin-top: 30px;
+    font-size: 16px;
+}
+
+.example-1 .date {
+    position: absolute;
+    top: 0;
+    left: 0;
+    background-color: #6c46df;
+    color: #fff;
+    padding: 0.8em;
+}
+
+.example-1 .date span {
+    display: block;
+    text-align: center;
+}
+
+.example-1 .date .day {
+    font-weight: 700;
+    font-size: 24px;
+    text-shadow: 2px 3px 2px rgba(0, 0, 0, 0.18);
+}
+
+.example-1 .date .month {
+    text-transform: uppercase;
+}
+
+.example-1 .date .month,
+.example-1 .date .year {
+    font-size: 12px;
+}
+
+.example-1 .title a {
+    color: rgb(255, 255, 255);
+}
+
+.image {
+    float: left;
+    width: 40%;
+}
+
+.book-image {
+    width: 100%;
+    display: block;
+    height: 300px;
+    margin-top: auto;
+    margin-bottom: auto;
+}
+
+
+
+
+footer {
+    background: rgb(25, 26, 34);
+    padding-top: 30px;
+    background-image: url(https://s3-us-west-2.amazonaws.com/s.cdpn.io/1462889/pat.svg);
+}
+
+footer .social {
+    overflow: hidden;
+    margin-top: 10px;
+    text-align: center;
+}
+
+footer .row {
+    margin-top: 0px;
+}
+
+footer .social li {
+    margin: 0px 10px;
+    display: inline-block;
+}
+
+footer .social li a {
+    color: #9d5bd9;
+    text-align: center;
+    background-color: #fff;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    display: inline-block;
+    font-size: 16px;
+    -webkit-transition: all 0.3s ease 0s;
+    -moz-transition: all 0.3s ease 0s;
+    -o-transition: all 0.3s ease 0s;
+    transition: all 0.3s ease 0s;
+}
+
+footer .social li a:hover {
+    background-color: #9b08d4;
+    color: #fff;
+}
+
+footer .copyright {
+    text-align: center;
+    border-top: 1px solid rgba(250, 250, 250, 0.2);
+    margin-top: 30px;
+    padding-top: 30px;
+    padding-bottom: 30px;
+    font-weight: 400;
+    font-size: 12px;
+    color: #fff;
+    letter-spacing: 0.88px;
+    text-transform: uppercase;
+}
+
+@media (max-width: 991px) {
+    footer .text {
+        margin-bottom: 30px;
+    }
+
+    footer h5 {
+        margin-bottom: 15px;
+    }
+
+    footer .footer-nav {
+        margin-bottom: 30px;
+    }
+}
+
+.fa {
+    margin-left: -4px;
 }

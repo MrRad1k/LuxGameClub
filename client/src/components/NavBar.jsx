@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Context } from '../index';
 import { Navbar, Nav, Container, Dropdown } from 'react-bootstrap'
 import { MAIN_ROUTER, USER_ROUTER, TRAINER_ROUTER, LOGIN_TRAINER_ROUTER, LOGIN_USER_ROUTER, USERS_LISTS_ROUTER } from '../utils/consts';
@@ -12,6 +12,7 @@ import { fetchTrainers } from '../http/trainerAPI';
 const NavBar = observer(() => {
     const { user, trainer } = useContext(Context)
     const navigate = useNavigate()
+    const [trainers, setTrainers] = useState([])
 
     const logOut = () => {
         user.setUser({})
@@ -32,19 +33,19 @@ const NavBar = observer(() => {
     }
 
     useEffect(() => {
-            fetchUsers().then(data => user.setUsers(data))
-            fetchTrainers().then(data => trainer.setTrainers(data))
+        fetchUsers().then(data => user.setUsers(data))
+        fetchTrainers().then(data => setTrainers(data))
     }, [user, trainer])
 
-
+    
     return (
-        <Navbar style={{ background: "rgb(25 26 34)" }}>
+        <Navbar sticky="top" style={{ background: "rgb(25 26 34)", backgroundImage: "url(https://s3-us-west-2.amazonaws.com/s.cdpn.io/1462889/pat.svg)" }}>
             <Container>
 
                 <Navbar.Brand style={{ color: "white" }} href={MAIN_ROUTER}>LuxGame Club</Navbar.Brand>
 
                 <Nav>
-                    <a className='aBtn' type="submit" onClick={() => navigate(USERS_LISTS_ROUTER)}>
+                    <a  className='aBtn' type="submit" onClick={() => navigate(USERS_LISTS_ROUTER)}>
                         <span className='spanBtn'>Список учеников</span>
                         <i className='iBtn'></i>
                     </a>
@@ -54,7 +55,7 @@ const NavBar = observer(() => {
                     <Nav>
                         <Dropdown className='d-flex'>
                             {trainer.isAuth &&
-                                trainer.trainers.map(trainer =>
+                                trainers.map(trainer =>
                                     localStorage.tokenTrainer &&
                                     decodeTrainer.id === trainer.id &&
 
@@ -76,7 +77,7 @@ const NavBar = observer(() => {
 
                             <Dropdown.Menu>
                                 {trainer.isAuth ?
-                                    trainer.trainers.map(trainer =>
+                                    trainers.map(trainer =>
                                         localStorage.tokenTrainer &&
                                         decodeTrainer.id === trainer.id &&
 

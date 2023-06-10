@@ -1,7 +1,6 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext } from 'react';
 import { Col, Image } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
-import { fetchGames } from '../../http/trainerAPI';
 import { TRAINER_ROUTER, LOGIN_USER_ROUTER } from '../../utils/consts';
 import { Context } from '../..';
 
@@ -11,7 +10,7 @@ const TrainerItem = ({ trainer }) => {
     const navigate = useNavigate()
 
     const check = () => {
-        if (!localStorage.tokenUser || !localStorage.tokenTrainer)
+        if (!localStorage.tokenUser && !localStorage.tokenTrainer)
             navigate(LOGIN_USER_ROUTER)
         else
             navigate(TRAINER_ROUTER + '/' + trainer.id)

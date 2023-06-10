@@ -20,7 +20,7 @@ const CreateStatistic = observer(({ show, onHide }) => {
     useEffect(() => {
         if (trainer.isAuth)
             fetchMaterials(decodeTrainer.id).then(data => trainer.setMaterial(data))
-    }, [])
+    }, [decodeTrainer.id, trainer])
 
     const addStatictic = async() => {
         if (rate !== '') {

@@ -5,8 +5,8 @@ const ApiError = require('../error/apiError')
 class MaterialController {
     async create(req, res, next) {
         try {
-            const { title, text, trainerId } = req.body
-            const material = await Material.create({ title, text, trainerId })
+            const { title,  content, trainerId } = req.body
+            const material = await Material.create({ title, content, trainerId })
             return res.json(material)
         } catch (e) { next(ApiError.badRequest(e.message)) }
     }
@@ -38,6 +38,18 @@ class MaterialController {
             const material = await Material.findOne({ where: { id } })
             const del = material.destroy()
             return res.json(del)
+        } catch (e) {
+            next(ApiError.badRequest(e.message))
+        }
+    }
+
+    async update(req, res, next) {
+        try {
+            const { id } = req.params
+            const { title,  content } = req.body
+            const material = await Material.findOne({ where: { id } })
+            const materialUpdate = await material.update({ title, content })
+            return res.json(materialUpdate)
         } catch (e) {
             next(ApiError.badRequest(e.message))
         }
